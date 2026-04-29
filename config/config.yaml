@@ -1,10 +1,10 @@
 # ═══════════════════════════════════════════════════════════════
 #                    TrendRadar 配置文件
-#                      Version: 2.2.1
+#                      Version: 2.2.2
 # ═══════════════════════════════════════════════════════════════
 
 
-# 可视化配置编辑器地址: https://sansan0.github.io/TrendRadar/
+# 可视化配置编辑器地址: https://miantang33.github.io/TrendRadar/docs/index.html
 
 
 # ===============================================================
@@ -63,8 +63,6 @@ platforms:
       name: "华尔街见闻"
     - id: "thepaper"
       name: "澎湃新闻"
-    - id: "bilibili-hot-search"
-      name: "bilibili 热搜"
     - id: "cls-hot"
       name: "财联社热门"
     - id: "ifeng"
@@ -73,10 +71,20 @@ platforms:
       name: "贴吧"
     - id: "weibo"
       name: "微博"
-    - id: "douyin"
-      name: "抖音"
     - id: "zhihu"
       name: "知乎"
+    - id: "zaobao"
+      name: "联合早报"
+    - id: "hupu"
+      name: "虎扑"
+    - id: "cankaoxiaoxi"
+      name: "参考消息"
+    - id: "solidot"
+      name: "奇客资讯"
+    - id: "kaopu"
+      name: "靠谱新闻"
+    - id: "sspai"
+      name: "少数派"
 
 
 
@@ -113,19 +121,138 @@ rss:
   # - 正整数：覆盖全局设置，只推送此天数内的文章
   # - 0：禁用此频道的新鲜度过滤，推送所有文章
   feeds:
-    - id: "hacker-news"
-      name: "Hacker News"
-      url: "https://hnrss.org/frontpage"
+    - id: "Headline Daily"
+      name: "头条"
+      url: "https://hd.stheadline.com/rss/news/daily/"
 
-    - id: "ruanyifeng"
-      name: "阮一峰的网络日志"
-      url: "http://www.ruanyifeng.com/blog/atom.xml"
-      enabled: false                  # 禁用
-      # max_age_days: 3               # 示例：推送 3 天内的文章（更新较慢的博客）
-     
-    - id: "yahoo-finance"
-      name: "雅虎财经"
-      url: "https://finance.yahoo.com/news/rssindex"
+
+# ═══════════════════════════════════════════════════════════════
+#                    TrendRadar 配置文件
+#                      Version: 2.2.2
+# ═══════════════════════════════════════════════════════════════
+
+
+# 可视化配置编辑器地址: https://miantang33.github.io/TrendRadar/docs/index.html
+
+
+# ===============================================================
+# 1. 基础设置
+# ===============================================================
+app:
+  # 时区配置（影响所有时间显示、调度系统判断、数据存储）
+  # 常用时区：
+  #   - Asia/Shanghai (北京时间 UTC+8)
+  #   - America/New_York (美东时间 UTC-5/-4)
+  #   - Europe/London (伦敦时间 UTC+0/+1)
+  # 完整时区列表: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  timezone: "Asia/Shanghai"
+  show_version_update: true           # 显示版本更新提示
+
+
+# ===============================================================
+# 1.5 调度系统 —— 什么时间做什么事
+#
+# 通过 timeline.yaml 里定义的时间段来自动决定：
+#   - 什么时候推送通知
+#   - 什么时候做 AI 分析
+#   - 用什么报告模式
+#
+# 快速上手：选一个预设模板，改 preset 的值就行
+#
+#   always_on       → 全天候，有新增即推送
+#   morning_evening → 全天推送 + 晚间当日汇总（推荐）
+#   office_hours    → 工作日三段式（到岗→午间→收工），周末增量自由推
+#   night_owl       → 午后速览 + 深夜全天汇总
+#   custom          → 完全自定义，详见 timeline.yaml
+#
+# 详细时间线图请查看 config/timeline.yaml
+# ===============================================================
+schedule:
+  enabled: true                         # 是否启用调度系统
+  preset: "morning_evening"             # 预设模板名称（见上方说明）
+
+
+# ===============================================================
+# 2. 数据源 - 热榜平台
+#
+# enabled: 是否启用热榜抓取（总开关）
+# sources: 平台列表
+#   - id: 平台唯一标识（勿修改）
+#   - name: 显示名称（可自定义，修改后不影响运行）
+# ===============================================================
+platforms:
+  enabled: true                         # 是否启用热榜平台抓取
+  sources:
+    - id: "toutiao"
+      name: "今日头条"
+    - id: "baidu"
+      name: "百度热搜"
+    - id: "wallstreetcn-hot"
+      name: "华尔街见闻"
+    - id: "thepaper"
+      name: "澎湃新闻"
+    - id: "cls-hot"
+      name: "财联社热门"
+    - id: "ifeng"
+      name: "凤凰网"
+    - id: "tieba"
+      name: "贴吧"
+    - id: "weibo"
+      name: "微博"
+    - id: "zhihu"
+      name: "知乎"
+    - id: "zaobao"
+      name: "联合早报"
+    - id: "hupu"
+      name: "虎扑"
+    - id: "cankaoxiaoxi"
+      name: "参考消息"
+    - id: "solidot"
+      name: "奇客资讯"
+    - id: "kaopu"
+      name: "靠谱新闻"
+    - id: "sspai"
+      name: "少数派"
+
+
+
+# ===============================================================
+# 3. 数据源 - RSS 订阅
+#
+# 与热榜数据分开存储，按时间流展示
+# 每个源配置：id(唯一标识)、name(显示名称)、url(订阅地址)
+# enabled: 可选，默认 true
+# max_age_days: 可选，覆盖全局 freshness_filter.max_age_days
+# ===============================================================
+rss:
+  enabled: true                       # 是否启用 RSS 抓取
+
+  # 文章新鲜度过滤配置（全局默认值）
+  # 过滤掉发布时间超过指定天数的旧文章，避免同一篇文章重复出现在推送中
+  #
+  # 过滤逻辑：
+  #   - 文章发布时间距当前时间（app.timezone 时区）超过 N 天则不推送
+  #   - 无发布时间的文章会被保留（不过滤）
+  #
+  # ⚠️ 过滤时机：在推送阶段过滤
+  #    - 所有文章都会存入数据库（MCP Server 的 AI 查询仍可访问）
+  #    - 只有新鲜的文章会被推送到通知渠道
+  freshness_filter:
+    enabled: true                     # 是否启用新鲜度过滤（默认启用）
+
+    max_age_days: 1                   # 最大文章年龄（天）
+                                      # - 正整数：只推送 N 天内的文章
+                                      # - 0：禁用过滤，推送所有文章
+
+  # 单个 feed 可配置 max_age_days 覆盖全局设置：
+  # - 不配置：使用全局 freshness_filter.max_age_days（默认 3 天）
+  # - 正整数：覆盖全局设置，只推送此天数内的文章
+  # - 0：禁用此频道的新鲜度过滤，推送所有文章
+  feeds:
+
+
+
+
 
     # 自定义源示例
     # - id: "custom-feed"
