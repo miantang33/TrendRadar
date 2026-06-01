@@ -11,6 +11,7 @@
 """
 
 from __future__ import annotations
+import os
 
 from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional
 
@@ -32,6 +33,7 @@ from .senders import (
     send_to_wework,
     send_to_generic_webhook,
 )
+from .github_sender import send_to_github
 
 
 # 类型检查时导入，运行时不导入（避免循环导入）
@@ -321,6 +323,18 @@ class NotificationDispatcher:
                 ai_analysis, display_regions, standalone_data
             )
 
+        # GitHub 仓库直写
+        github_token = os.environ.get("GITHUB_TOKEN") or self.config.get("GITHUB_TOKEN", "")
+        if self.config.get("GITHUB_ENABLED") and github_token and self.config.get("GITHUB_REPO"):
+            results["github"] = self._send_github(
+                report_data, report_type, update_info, proxy_url, mode, rss_items, rss_new_items,
+                ai_analysis, display_regions, standalone_data
+            )
+
+        # GitHub 仓库直写
+                ai_analysis, display_regions, standalone_data
+            )
+
         # 邮件（保持原有逻辑，已支持多收件人，AI 分析已嵌入 HTML）
         if (
             self.config.get("EMAIL_FROM")
@@ -385,6 +399,40 @@ class NotificationDispatcher:
             rss_new_items if (show_rss and display_regions.get("NEW_ITEMS", True)) else None,
             ai_analysis if display_regions.get("AI_ANALYSIS", True) else None,
             standalone_data if display_regions.get("STANDALONE", False) else None,
+        )
+
+    def _send_github(
+        self,
+        report_data: Dict,
+        report_type: str,
+        update_info: Optional[Dict],
+        proxy_url: Optional[str],
+        mode: str,
+        rss_items: Optional[List[Dict]] = None,
+        rss_new_items: Optional[List[Dict]] = None,
+        ai_analysis: Optional[AIAnalysisResult] = None,
+        display_regions: Optional[Dict] = None,
+        standalone_data: Optional[Dict] = None,
+    ) -> bool:
+        """发送到 GitHub 仓库（Markdown 文件）"""
+        rd, ri, rn, ai, sd = self._apply_display_regions(
+            report_data, display_regions, rss_items, rss_new_items, ai_analysis, standalone_data
+        )
+        return send_to_github(
+            github_token=os.environ.get("GITHUB_TOKEN") or self.config["GITHUB_TOKEN"],
+            github_repo=self.config["GITHUB_REPO"],
+            report_data=rd,
+            report_type=report_type,
+            update_info=update_info,
+            proxy_url=proxy_url,
+            mode=mode,
+            get_time_func=self.get_time_func,
+            rss_items=ri,
+            rss_new_items=rn,
+            ai_analysis=ai,
+            display_regions=display_regions or {},
+            standalone_data=sd,
+            repo_path=self.config.get("GITHUB_REPO_PATH", "hotspots"),
         )
 
     def _send_feishu(
