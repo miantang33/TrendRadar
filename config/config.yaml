@@ -85,6 +85,14 @@ platforms:
       name: "靠谱新闻"
     - id: "sspai"
       name: "少数派"
+    - id: "douyin"
+      name: "抖音"
+    - id: "kuaishou"
+      name: "快手"
+    - id: "tencent"
+      name: "腾讯新闻"
+    - id: "bilibili-hot-search"
+      name: "哔哩哔哩"
 
 
 
@@ -213,6 +221,14 @@ platforms:
       name: "靠谱新闻"
     - id: "sspai"
       name: "少数派"
+    - id: "douyin"
+      name: "抖音"
+    - id: "kuaishou"
+      name: "快手"
+    - id: "tencent"
+      name: "腾讯新闻"
+    - id: "bilibili-hot-search"
+      name: "哔哩哔哩"
 
 
 
