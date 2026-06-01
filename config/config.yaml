@@ -469,7 +469,7 @@ notification:
       enabled: true                   # 是否启用 GitHub 仓库直写
       token: ""                         # 建议使用环境变量 GITHUB_TOKEN 或 GitHub Secrets
       repo: "miantang33/obsidian"
-      repo_path: "hotspots"            # 仓库内目标目录（默认 hotspots）
+      repo_path: "头条写作/hotspots"            # 仓库内目标目录（默认 hotspots）
 
 
 # ===============================================================
