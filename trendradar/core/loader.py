@@ -412,6 +412,7 @@ def _load_webhook_config(config_data: Dict) -> Dict:
     bark = channels.get("bark", {})
     slack = channels.get("slack", {})
     generic = channels.get("generic_webhook", {})
+    github = channels.get("github", {})
 
     return {
         # 飞书
@@ -441,6 +442,11 @@ def _load_webhook_config(config_data: Dict) -> Dict:
         # 通用 Webhook
         "GENERIC_WEBHOOK_URL": _get_env_str("GENERIC_WEBHOOK_URL") or generic.get("webhook_url", ""),
         "GENERIC_WEBHOOK_TEMPLATE": _get_env_str("GENERIC_WEBHOOK_TEMPLATE") or generic.get("payload_template", ""),
+        # GitHub
+        "GITHUB_ENABLED": github.get("enabled", False),
+        "GITHUB_TOKEN": _get_env_str("GITHUB_TOKEN") or github.get("token", ""),
+        "GITHUB_REPO": _get_env_str("GITHUB_REPO") or github.get("repo", ""),
+        "GITHUB_REPO_PATH": _get_env_str("GITHUB_REPO_PATH") or github.get("repo_path", "hotspots"),
     }
 
 
