@@ -331,11 +331,6 @@ class NotificationDispatcher:
                 ai_analysis, display_regions, standalone_data
             )
 
-        # GitHub 仓库直写
-                ai_analysis, display_regions, standalone_data
-            )
-
-        # 邮件（保持原有逻辑，已支持多收件人，AI 分析已嵌入 HTML）
         if (
             self.config.get("EMAIL_FROM")
             and self.config.get("EMAIL_PASSWORD")
