@@ -62,7 +62,12 @@ def send_to_github(
         if not source_titles:
             continue
 
-        source_name = stat.get("source_name", "未知来源")
+        # 优先从 stat 取，fallback 到第一个 title 的 source_name
+        source_name = stat.get("source_name") or stat.get("name")
+        if not source_name and source_titles:
+            source_name = source_titles[0].get("source_name", "")
+        if not source_name:
+            source_name = "未知来源"
         lines.append(f"## {source_name} ({len(source_titles)} 条)")
         lines.append("")
 
