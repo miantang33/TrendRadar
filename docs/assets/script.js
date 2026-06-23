@@ -1018,6 +1018,8 @@ function renderControls(mod) {
             html = createToggleControl(mod.key, "enabled", "开启 AI 自动翻译");
             html += createInputControl(mod.key, "language", "目标语言");
             html += createInputControl(mod.key, "prompt_file", "提示词配置文件");
+            html += createNumberControl(mod.key, "batch_size", "每批翻译标题数");
+            html += createNumberControl(mod.key, "batch_interval", "分批间隔 (秒)");
             break;
     }
 
@@ -5059,7 +5061,11 @@ function buildEmptyPresetBlock(key, name, desc) {
  */
 function buildPresetYamlBlock(key, cfg) {
     const obj = { [key]: cfg };
-    const dumped = jsyaml.dump(obj, { indent: 2, lineWidth: -1, quotingType: '"', forceQuotes: false });
+    let dumped = jsyaml.dump(obj, { indent: 2, lineWidth: -1, quotingType: '"', forceQuotes: false });
+    // js-yaml 会把 week_map 的数字 key 序列化成带引号的字符串（"1".."7"），
+    // 而后端 scheduler 用整数 isoweekday() 读取 week_map，字符串 key 会导致启动校验失败、无法运行。
+    // 这里去掉纯数字 key 的引号，与手写模板（1: all_day）及后端期望的整数 key 保持一致。
+    dumped = dumped.replace(/^(\s*)"(\d+)":/gm, '$1$2:');
     return dumped.split('\n').map(l => l ? '  ' + l : l).join('\n');
 }
 
