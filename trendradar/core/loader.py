@@ -413,6 +413,7 @@ def _load_webhook_config(config_data: Dict) -> Dict:
     bark = channels.get("bark", {})
     slack = channels.get("slack", {})
     generic = channels.get("generic_webhook", {})
+    github = channels.get("github", {})
 
     return {
         # 飞书
@@ -442,6 +443,9 @@ def _load_webhook_config(config_data: Dict) -> Dict:
         # 通用 Webhook
         "GENERIC_WEBHOOK_URL": _get_env_str("GENERIC_WEBHOOK_URL") or generic.get("webhook_url", ""),
         "GENERIC_WEBHOOK_TEMPLATE": _get_env_str("GENERIC_WEBHOOK_TEMPLATE") or generic.get("payload_template", ""),
+        # GitHub 仓库推送（热点文件写入）
+        "GITHUB_TOKEN": _get_env_str("GITHUB_TOKEN") or github.get("token", ""),
+        "GITHUB_REPO": _get_env_str("GITHUB_REPO") or github.get("repo", ""),
     }
 
 
@@ -519,6 +523,10 @@ def _print_notification_sources(config: Dict) -> None:
         count = min(len(accounts), max_accounts)
         source = "环境变量" if os.environ.get("GENERIC_WEBHOOK_URL") else "配置文件"
         notification_sources.append(f"通用Webhook({source}, {count}个账号)")
+
+    if config.get("GITHUB_REPO") and config.get("GITHUB_TOKEN"):
+        source = "环境变量" if os.environ.get("GITHUB_REPO") else "配置文件"
+        notification_sources.append(f"GitHub仓库({config['GITHUB_REPO']}, {source})")
 
     if notification_sources:
         print(f"通知渠道配置来源: {', '.join(notification_sources)}")
