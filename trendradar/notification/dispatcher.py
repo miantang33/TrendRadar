@@ -32,6 +32,7 @@ from .senders import (
     send_to_telegram,
     send_to_wework,
     send_to_generic_webhook,
+    send_to_github,
 )
 
 
@@ -343,6 +344,12 @@ class NotificationDispatcher:
             results["slack"] = self._send_slack(
                 report_data, report_type, update_info, proxy_url, mode, rss_items, rss_new_items,
                 ai_analysis, display_regions, standalone_data
+            )
+
+        # GitHub
+        if self.config.get("GITHUB_TOKEN") and self.config.get("GITHUB_REPO"):
+            results["github"] = self._send_github(
+                report_data, report_type, update_info, proxy_url, mode
             )
 
         # 通用 Webhook
@@ -745,6 +752,26 @@ class NotificationDispatcher:
                 display_regions=display_regions or {},
                 standalone_data=sd,
             ),
+        )
+
+    def _send_github(
+        self,
+        report_data: Dict,
+        report_type: str,
+        update_info: Optional[Dict],
+        proxy_url: Optional[str],
+        mode: str,
+    ) -> bool:
+        """发送到 GitHub（直接写入仓库 Markdown）"""
+        return send_to_github(
+            github_token=self.config["GITHUB_TOKEN"],
+            github_repo=self.config["GITHUB_REPO"],
+            report_data=report_data,
+            report_type=report_type,
+            update_info=update_info,
+            proxy_url=proxy_url,
+            mode=mode,
+            get_time_func=self.get_time_func,
         )
 
     def _send_generic_webhook(
