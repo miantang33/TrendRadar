@@ -2,34 +2,38 @@ name: Get Hot News
 
 on:
   schedule:
-    # 鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣
-    # 鈿狅笍 璇曠敤鐗堣鏄?/ Trial Mode
-    # 鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    # ⚠️ 试用版说明 / Trial Mode
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     #
-    # 馃攧 杩愯鏈哄埗 / How it works:
-    #    - 姣忎釜鍛ㄦ湡涓?7 澶╋紝灞婃椂鑷姩鍋滄
-    #    - 杩愯 "Check In" 浼氶噸缃懆鏈燂紙閲嶆柊寮€濮?7 澶╁€掕鏃讹紝鑰岄潪绱姞锛?    #    - Each cycle is 7 days, then auto-stops
+    # 🔄 运行机制 / How it works:
+    #    - 每个周期为 7 天，届时自动停止
+    #    - 运行 "Check In" 会重置周期（重新开始 7 天倒计时，而非累加）
+    #    - Each cycle is 7 days, then auto-stops
     #    - "Check In" resets the cycle (restarts 7-day countdown, not cumulative)
     #
-    # 馃挕 璁捐鍒濊》 / Why this design:
-    #    濡傛灉 7 澶╅兘蹇樹簡绛惧埌锛屾垨璁歌繖浜涜祫璁浣犳潵璇村苟闈炲垰闇€
-    #    閫傛椂鐨勬殏鍋滐紝鑳藉府浣犱粠淇℃伅娴佷腑鎶界锛岀粰澶ц剳鐣欏嚭鍠樻伅鐨勭┖闂?    #    If you forget for 7 days, maybe you don't really need it
+    # 💡 设计初衷 / Why this design:
+    #    如果 7 天都忘了签到，或许这些资讯对你来说并非刚需
+    #    适时的暂停，能帮你从信息流中抽离，给大脑留出喘息的空间
+    #    If you forget for 7 days, maybe you don't really need it
     #    A timely pause helps you detach from the stream and gives your mind space
     #
-    # 馃檹 鐝嶆儨璧勬簮 / Respect shared resources:
-    #    GitHub Actions 鏄钩鍙版彁渚涚殑鍏叡璧勬簮锛屾瘡娆¤繍琛岄兘浼氭秷鑰楃畻鍔?    #    绛惧埌鏈哄埗纭繚璧勬簮鍒嗛厤缁欑湡姝ｉ渶瑕佺殑鐢ㄦ埛锛屾劅璋綘鐨勭悊瑙ｄ笌閰嶅悎
+    # 🙏 珍惜资源 / Respect shared resources:
+    #    GitHub Actions 是平台提供的公共资源，每次运行都会消耗算力
+    #    签到机制确保资源分配给真正需要的用户，感谢你的理解与配合
     #    GitHub Actions is a shared public resource provided by the platform
-    #    Check-in ensures resources go to those who truly need it 鈥?thank you
+    #    Check-in ensures resources go to those who truly need it — thank you
     #
-    # 馃殌 闀挎湡浣跨敤璇烽儴缃?Docker 鐗堟湰 / For long-term use, deploy Docker version
+    # 🚀 长期使用请部署 Docker 版本 / For long-term use, deploy Docker version
     #
-    # 鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣鈹佲攣
+    # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     #
-    # 馃摑 淇敼杩愯鏃堕棿锛氬彧鏀圭涓€涓暟瀛楋紙0-59锛夛紝琛ㄧず姣忓皬鏃剁鍑犲垎閽熻繍琛?    # 馃摑 Change time: Only modify the first number (0-59) = minute of each hour
+    # 📝 修改运行时间：只改第一个数字（0-59），表示每小时第几分钟运行
+    # 📝 Change time: Only modify the first number (0-59) = minute of each hour
     #
-    # 绀轰緥 / Examples:
-    #   "15 * * * *"     鈫?姣忓皬鏃剁15鍒嗛挓 / minute 15 every hour
-    #   "30 0-14 * * *"  鈫?鍖椾含鏃堕棿 8:00-22:00 姣忓皬鏃剁30鍒嗛挓 / Beijing 8am-10pm
+    # 示例 / Examples:
+    #   "15 * * * *"     → 每小时第15分钟 / minute 15 every hour
+    #   "30 0-14 * * *"  → 北京时间 8:00-22:00 每小时第30分钟 / Beijing 8am-10pm
     #
     - cron: "33 * * * *"
 
@@ -78,32 +82,34 @@ jobs:
             LIMIT_SECONDS=604800
 
             if [ $DIFF_SECONDS -gt $LIMIT_SECONDS ]; then
-              echo "鈿狅笍 璇曠敤鏈熷凡缁撴潫锛岃杩愯 'Check In' 绛惧埌缁湡"
-              echo "鈿狅笍 Trial expired. Run 'Check In' to renew."
+              echo "⚠️ 试用期已结束，请运行 'Check In' 签到续期"
+              echo "⚠️ Trial expired. Run 'Check In' to renew."
               gh workflow disable "$WORKFLOW_FILE"
               exit 1
             else
               DAYS_LEFT=$(( (LIMIT_SECONDS - DIFF_SECONDS) / 86400 ))
-              echo "鉁?璇曠敤鏈熷墿浣?${DAYS_LEFT} 澶╋紝鍒版湡鍓嶈杩愯 'Check In' 绛惧埌缁湡"
-              echo "鉁?Trial: ${DAYS_LEFT} days left. Run 'Check In' before expiry to renew."
+              echo "✅ 试用期剩余 ${DAYS_LEFT} 天，到期前请运行 'Check In' 签到续期"
+              echo "✅ Trial: ${DAYS_LEFT} days left. Run 'Check In' before expiry to renew."
             fi
           fi
 
 
       # --------------------------------------------------------------------------------
-      # 馃殾 TRAFFIC CONTROL / 娴侀噺鎺у埗
+      # 🚦 TRAFFIC CONTROL / 流量控制
       # --------------------------------------------------------------------------------
       # EN: Generates a random delay between 1 and 300 seconds (5 minutes).
       #     Critical for load balancing.
       #
-      # CN: 鐢熸垚 1 鍒?300 绉掞紙5鍒嗛挓锛変箣闂寸殑闅忔満寤惰繜銆?      #     杩欏璐熻浇鍧囪　鑷冲叧閲嶈銆?      # - name: Random Delay (Traffic Control)
+      # CN: 生成 1 到 300 秒（5分钟）之间的随机延迟。
+      #     这对负载均衡至关重要。
+      # - name: Random Delay (Traffic Control)
       #   if: success()
       #   run: |
-      #     echo "馃幉 Traffic Control: Generating random delay..."
+      #     echo "🎲 Traffic Control: Generating random delay..."
       #     DELAY=$(( ( RANDOM % 300 )  + 1 ))
-      #     echo "鈴革笍  Sleeping for ${DELAY} seconds to spread the load..."
+      #     echo "⏸️  Sleeping for ${DELAY} seconds to spread the load..."
       #     sleep ${DELAY}s
-      #     echo "鈻讹笍  Delay finished. Starting crawler..."
+      #     echo "▶️  Delay finished. Starting crawler..."
 
       - name: Set up Python
         if: success()
@@ -146,16 +152,15 @@ jobs:
           NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
           BARK_URL: ${{ secrets.BARK_URL }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          # 閫氱敤Webhook閰嶇疆
+          # 通用Webhook配置
           GENERIC_WEBHOOK_URL: ${{ secrets.GENERIC_WEBHOOK_URL }}
           GENERIC_WEBHOOK_TEMPLATE: ${{ secrets.GENERIC_WEBHOOK_TEMPLATE }}
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-          GITHUB_REPO: miantang33/obsidian
-          # AI 閰嶇疆锛坅i_analysis 鍜?ai_translation 鍏变韩妯″瀷閰嶇疆锛?          AI_ANALYSIS_ENABLED: ${{ secrets.AI_ANALYSIS_ENABLED }}
+          # AI 配置（ai_analysis 和 ai_translation 共享模型配置）
+          AI_ANALYSIS_ENABLED: ${{ secrets.AI_ANALYSIS_ENABLED }}
           AI_API_KEY: ${{ secrets.AI_API_KEY }}
           AI_MODEL: ${{ secrets.AI_MODEL }}
           AI_API_BASE: ${{ secrets.AI_API_BASE }}
-          # 杩滅▼瀛樺偍閰嶇疆
+          # 远程存储配置
           S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
           S3_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
           S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
