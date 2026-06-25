@@ -22,6 +22,7 @@ from trendradar.core.config import (
     validate_paired_configs,
 )
 
+from .github_sender import send_to_github
 from .senders import (
     send_to_bark,
     send_to_dingtalk,
@@ -32,7 +33,6 @@ from .senders import (
     send_to_telegram,
     send_to_wework,
     send_to_generic_webhook,
-    send_to_github,
 )
 
 
