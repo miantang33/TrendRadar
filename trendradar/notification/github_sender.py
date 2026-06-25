@@ -29,7 +29,7 @@ def send_to_github(
     ai_analysis: Any = None,
     display_regions: Optional[Dict] = None,
     standalone_data: Optional[Dict] = None,
-    repo_path: str = "hotspots",
+    repo_path: str = "头条写作/hotspots",
 ) -> bool:
     """
     将热点报告直接写入 GitHub 仓库（Markdown 文件）
