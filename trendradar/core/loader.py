@@ -110,6 +110,8 @@ def _load_notification_config(config_data: Dict) -> Dict:
         "BATCH_SEND_INTERVAL": advanced.get("batch_send_interval", 1.0),
         "FEISHU_MESSAGE_SEPARATOR": advanced.get("feishu_message_separator", "---"),
         "MAX_ACCOUNTS_PER_CHANNEL": _get_env_int("MAX_ACCOUNTS_PER_CHANNEL") or advanced.get("max_accounts_per_channel", 3),
+        "GITHUB_TOKEN": _get_env_str("GITHUB_TOKEN") or "",
+        "GITHUB_REPO": _get_env_str("GITHUB_REPO") or "",
     }
 
 
@@ -519,6 +521,10 @@ def _print_notification_sources(config: Dict) -> None:
         count = min(len(accounts), max_accounts)
         source = "环境变量" if os.environ.get("GENERIC_WEBHOOK_URL") else "配置文件"
         notification_sources.append(f"通用Webhook({source}, {count}个账号)")
+
+    if config.get("GITHUB_TOKEN") and config.get("GITHUB_REPO"):
+        token_source = "环境变量" if os.environ.get("GITHUB_TOKEN") else "配置文件"
+        notification_sources.append(f"GitHub({token_source})")
 
     if notification_sources:
         print(f"通知渠道配置来源: {', '.join(notification_sources)}")
