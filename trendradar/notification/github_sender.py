@@ -9,6 +9,7 @@ GitHub 推送模块
 import base64
 from datetime import datetime
 from typing import Any, Callable, Dict, Optional
+from urllib.parse import quote
 
 import requests
 
@@ -102,8 +103,9 @@ def send_to_github(
 
     markdown_content = "\n".join(lines)
 
+    encoded_path = quote(repo_path)
     api_url = (
-        f"https://api.github.com/repos/{github_repo}/contents/{repo_path}/{filename}"
+        f"https://api.github.com/repos/{github_repo}/contents/{encoded_path}/{filename}"
     )
 
     content_bytes = markdown_content.encode("utf-8")
