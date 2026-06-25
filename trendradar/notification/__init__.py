@@ -34,6 +34,7 @@ from trendradar.notification.splitter import (
     split_content_into_batches,
     DEFAULT_BATCH_SIZES,
 )
+from trendradar.notification.github_sender import send_to_github
 from trendradar.notification.senders import (
     send_to_feishu,
     send_to_dingtalk,
@@ -73,5 +74,6 @@ __all__ = [
     "send_to_slack",
     "SMTP_CONFIGS",
     # 通知调度器
+    "send_to_github",
     "NotificationDispatcher",
 ]
