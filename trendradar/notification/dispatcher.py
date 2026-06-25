@@ -34,8 +34,6 @@ from .senders import (
     send_to_generic_webhook,
 )
 
-from .github_sender import send_to_github
-
 
 # 类型检查时导入，运行时不导入（避免循环导入）
 if TYPE_CHECKING:
@@ -361,24 +359,6 @@ class NotificationDispatcher:
             and self.config.get("EMAIL_TO")
         ):
             results["email"] = self._send_email(report_type, html_file_path)
-
-        # GitHub 仓库推送（热点 Markdown 文件写入 hotspots/ 目录）
-        if self.config.get("GITHUB_REPO") and self.config.get("GITHUB_TOKEN"):
-            results["github"] = send_to_github(
-                github_token=self.config["GITHUB_TOKEN"],
-                github_repo=self.config["GITHUB_REPO"],
-                report_data=report_data,
-                report_type=report_type,
-                update_info=update_info,
-                proxy_url=proxy_url,
-                mode=mode,
-                get_time_func=self.get_time_func,
-                rss_items=rss_items,
-                rss_new_items=rss_new_items,
-                ai_analysis=ai_analysis,
-                display_regions=display_regions,
-                standalone_data=standalone_data,
-            )
 
         return results
 
